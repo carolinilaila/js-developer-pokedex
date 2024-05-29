@@ -4,7 +4,7 @@ const pokemonModal = document.getElementById('pokemonModal')
 
 const maxRecords = 151
 const limit = 10
-let offset = 0;
+let offset = 0
 
 function convertPokemonToLi(pokemon) {
     return `
@@ -28,7 +28,7 @@ function convertPokemonToLi(pokemon) {
 
 function convertPokemonDetailToSection(pokemon)  {
     return `
-        <section class="pokemon>
+        <section class="pokemon">
             <span class="name">${pokemon.name}</span>
             <ol class="types">
                 ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
@@ -57,51 +57,54 @@ loadMoreButton.addEventListener('click', () => {
         loadMoreButton.parentElement.removeChild(loadMoreButton)
     } else {
         loadPokemonItens(offset, limit)
-        // TODO: arrumar pokemonPosition quando clicar no loadMoreButton
-        loadPokemonDetails()
     }
 })  
 
-// Função para abrir o modal
 function openModal(event) {
-    const modal = document.getElementById("modal");
-    modal.style.display = "block";
-    const clickedPokemon = event.currentTarget;
-    const pokemonPosition = clickedPokemon.dataset.value
-    loadPokemonDetails(pokemonPosition)
-}
+    const modal = document.getElementById("modal")
+    modal.style.display = "block"
+    const clickedPokemon = event.currentTarget
+    const pokemonPosition = parseInt(clickedPokemon.dataset.value, 10)
+    
+     // Calcular o número da página
+    const pageNumber = Math.floor(pokemonPosition / limit)
+
+     // Calcular o offset da página
+    const pageOffset = pageNumber * limit
+
+     // Calcular o índice na página
+    const pokemonIndex = pokemonPosition - pageOffset
+
+    loadPokemonDetails(pokemonIndex, pageOffset)
+}   
 
 // Função para fechar o modal
 function closeModal() {
-    const modal = document.getElementById("modal");
-    modal.style.display = "none";
+    const modal = document.getElementById("modal")
+    modal.style.display = "none"
 }
 
 // Fechar o modal clicando fora da área do modal
 window.onclick = function(event) {
-    var modal = document.getElementById("modal");
+    var modal = document.getElementById("modal")
     if (event.target == modal) {
-        modal.style.display = "none";
+        modal.style.display = "none"
     }
 }
 
-function loadPokemonDetails(pokemonPosition) {
-    pokeApi.getPokemons(offset, limit).then((pokemons = []) => {
-        let newPokemon = []
-        console.log(pokemons)
-        pokemons.forEach((pokemon) => {
-            newPokemon.push({ number: pokemon.number, name: pokemon.name, photo: pokemon.photo, types: pokemon.types })
-        })
-        
-        if (pokemonPosition >= 0 && pokemonPosition < newPokemon.length) {
-            const pokemonDetails = newPokemon[pokemonPosition];
-            console.log(pokemonDetails);
-            const newHtml = convertPokemonDetailToSection(pokemonDetails);
-            pokemonModal.innerHTML = newHtml;
-            return pokemonDetails;
+function loadPokemonDetails(pokemonIndex, pageOffset) {
+    return pokeApi.getPokemons(pageOffset, limit).then((pokemons = []) => {
+        if (pokemonIndex >= 0 && pokemonIndex < pokemons.length) {
+            const pokemonDetails = pokemons[pokemonIndex]
+            const newHtml = convertPokemonDetailToSection(pokemonDetails)
+            pokemonModal.innerHTML = newHtml
+            return pokemonDetails
         } else {
-            console.log("Erro: Pokemon não existe!")
+            console.log("Erro: Índice do Pokémon não existe!")
             return null
         }
+    }).catch((error) => {
+        console.error("Erro ao carregar detalhes do Pokémon:", error)
+        return null
     })
 }
