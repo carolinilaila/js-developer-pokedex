@@ -1,6 +1,6 @@
 const pokemonList = document.getElementById('pokemonList')
 const loadMoreButton = document.getElementById('loadMoreButton')
-const pokemonModal = document.getElementById('pokemonModal')
+const pokemonModal = document.getElementById('modal')
 
 const maxRecords = 151
 const limit = 10
@@ -28,13 +28,36 @@ function convertPokemonToLi(pokemon) {
 
 function convertPokemonDetailToSection(pokemon)  {
     return `
-        <section class="pokemon">
-            <span class="name">${pokemon.name}</span>
-            <ol class="types">
-                ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
-            </ol>
-            <img src="${pokemon.photo}" alt="${pokemon.name}">
-        </section>
+        <div class="modal-content ${pokemon.type}">
+            <div  id="pokemonModal">
+                <section class="pokemon">
+                    <span class="close" onclick="closeModal()">&larr;</span>
+                    <span class="name">${pokemon.name}</span>
+                    <ol class="types">
+                        ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
+                    </ol>
+                </section>
+                <section class="pokemon-image">
+                    <img src="${pokemon.photo}" alt="${pokemon.name}">
+                </section>
+                <section class="pokemon-details">
+                    <section class="tabs">
+                        <div class="tab">
+                            <h3 class"actived">About</h3>
+                            <section class="info">
+                                <h4>Weight:</h4>
+                                <p>${pokemon.weight}</p>
+                            </section>
+                            <section class="info">
+                                <h4>Species:</h4>
+                                <p>${pokemon.species.name}</p>
+                            </section>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </div>
+        
     `
 }
 

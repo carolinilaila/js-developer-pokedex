@@ -146,6 +146,79 @@
     border-radius: 1rem;
 }
 
+#modal .modal-content {
+    width: 50%;
+    height: 62vh;
+}
+
+section.pokemon .name {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+section.pokemon .types {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    opacity: .4rem;
+}
+
+section.pokemon .types li {
+    margin-right: 1rem;
+    border-radius: 1rem;
+    padding: .3rem .8rem;
+    color: #fff;
+    filter: brightness(1.1);
+}
+
+section.pokemon-image {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+section.pokemon-image img{
+    object-fit: contain;
+    width: 120px;
+}
+
+section.pokemon-details {
+    background-color: #fff;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    margin-top: -60px;
+}
+
+section.pokemon-details .tabs {
+    display: flex;
+    height: 32vh;
+    padding: 2rem;
+}
+
+section.pokemon-details .tabs > .tab {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+section.pokemon-details .tabs .tab .info {
+    display: flex;  
+}
+
+section.pokemon-details .tabs .tab .info h4 {
+    font-weight: lighter;
+    margin: 0 .5rem 0 0;
+    padding: 0;
+}
+
+section.pokemon-details .tabs .tab .info p {
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+}
+
 @media screen and (min-width: 380px) {
     .pokemons {
         grid-template-columns: 1fr 1fr;
@@ -161,5 +234,9 @@
 @media screen and (min-width: 992px) {
     .pokemons {
         grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    section.pokemon-image img{
+        width: 200px;
     }
 }
